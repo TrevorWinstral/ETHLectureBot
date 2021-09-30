@@ -10,6 +10,7 @@ The URL should be adjusted to reflect the current year / semester, this should b
 import PyPDF2 
 import re, pickle
 import feedparser
+from course import Course
 
 READ_PDF = False
 FIND_HITS = True
@@ -31,7 +32,7 @@ if READ_PDF:
         courses += l
         print(l)
 
-    print(courses)
+    #print(courses)
     pdffile.close()
 
     courses = list(set(courses))
@@ -44,16 +45,16 @@ if FIND_HITS:
 
     with open('all_courses.pkl', 'rb') as infile:
         courses= pickle.load(infile)
-    print(len(courses))
 
-    hits = []
+    hits = {d:[] for d in Depts}
     for idx in courses:
+        entries=[]
         for dept in Depts:
             r=feedparser.parse(f'https://video.ethz.ch/lectures/{dept}/{year}/{season}/{idx}.rss.xml?quality=HIGH')
             entries= r.entries
             if entries != []:
-                hits.append(idx)
-                print(idx, entries[0]['subtitle'])
+                hits[dept].append(Course(dept, idx, year, season))
+                print(idx, dept, entries[0]['subtitle'])
                 break
 
     with open('rss_courses.pkl', 'wb') as outfile:
