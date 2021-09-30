@@ -3,8 +3,11 @@ Uses RSS feed to send updates via Telegram chatbot when lectures have been uploa
 
 ## Scripts
 `bot.py`: Runs the chatbot
+
 `course.py`: For the course class
+
 `parse_courses.py`: Reads the courses for a given semester, find which have an RSS feed, pickles results
+
 `update_coures.py`: Reads RSS feeds to check when a course has been updated
 
 
