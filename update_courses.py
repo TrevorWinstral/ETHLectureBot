@@ -15,4 +15,6 @@ for dept in courses.keys():
             c2.has_been_updated = True
             courses[dept][idx] = c2
 
+# TODO dump to pickle, check that we haven't changed subscriptions somewhere
+
 

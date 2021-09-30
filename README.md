@@ -22,3 +22,6 @@ For each new semester, the parse courses script should be ran. This requires the
 - ~Create objects for courses (class) and users (dict)~
 - ~Create script to check when a new video has been added, then mark this course to have notification sent out~
 - Create bot to allow users to change settings, and which regularly checks the courses which are marked for notification and notifies subscribers
+    - partially done, needs to be tested
+- Make sure that users updating their subscriptions does not get overwritten by courses getting updated
+    - Have `update_courses` read user_settings pickle after it has retrieved everything, making sure each person is still subscribed, maybe have to check that runtime isn't too long with that.

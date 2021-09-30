@@ -5,6 +5,8 @@ class Course:
     def __init__(self, dept, code, year, season):
         self.dept = dept
         self.code = code
+        self.year = year
+        self.season = season
         self.url = f'https://video.ethz.ch/lectures/{dept}/{year}/{season}/{code}.rss.xml?quality=HIGH'
         self.feed = feedparser.parse(self.url)
         self.latest = datetime.datetime.strptime(self.feed.entries[0]['published'],r'%Y-%m-%dT%H:%MZ')
