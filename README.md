@@ -1,5 +1,5 @@
 # ETH Lecture Bot
-Uses RSS feed to send updates via Telegram chatbot when lectures have been uploaded. Try it out for yourself [here](t.me/ETHLectureBot) (you need Telegram). Only videos which are hosted on the ETH video portal are tracked.
+Uses RSS feed to send updates via Telegram chatbot when lectures have been uploaded. Try it out for yourself [here](http://t.me/ETHLectureBot) (you need Telegram). Only videos which are hosted on the ETH video portal are tracked.
 
 ## Scripts
 `bot.py`: Runs the chatbot
