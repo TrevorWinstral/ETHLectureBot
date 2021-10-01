@@ -51,7 +51,7 @@ def send_welcome(message):
         logger.log(20, msg='New User!')
 
     dump_users(users)
-    bot.reply_to(message, f'Welcome! You can use /info to get some help, report a problem, or see the source code')
+    bot.reply_to(message, f'Welcome! You can use /info to get some help, report a problem, or see the source code. Note that only courses which use the ETH video portal are tracked here.')
     menu(message)
 
 
@@ -59,7 +59,7 @@ def send_welcome(message):
 def help(message):
     chat_id = message.chat.id
 
-    bot.send_message(chat_id, """Use /menu to access the main menu. From there you can choose to /subscribe to a new course, or /unsubscribe from a course you are currently subscribed to.\
+    bot.send_message(chat_id, """Note that only courses which use the ETH video portal are tracked here. Use /menu to access the main menu. From there you can choose to /subscribe to a new course, or /unsubscribe from a course you are currently subscribed to.\
 Subscribing to the same course twice will unsubscribe you. 
         
 To report a problem send me an email: trevor.winstral@math.ethz.ch
