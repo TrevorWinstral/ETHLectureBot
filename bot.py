@@ -172,6 +172,11 @@ for dept in courses.keys():
                     menu(None, chat_id=sub)
                 except Exception as e:
                     logger.log(20, 'Something went wrong when trying to send the user {sub} an update for their course {c.name}: {c.code}. Error: {e}')
+            c.has_been_updated = False # this should work as classes are mutable, may be I am wrong though
+
+with open('rss_courses.pkl', 'wb') as outf:
+    pickle.dump(courses, outf)
+
 
 while True:
     try:
