@@ -18,6 +18,8 @@ The `update_courses.py` script should be run at whatever interval is desired. Ru
 
 `bot.py` should be run constantly (or whenever you want the bot to work). Very simply interface, the user can either sub to a lecture, or unsub from one they have already subbed to. It is important that when subbing/unsubbing, not only are the user's subscriptions updated, but the course's subscribers as well. When these are changed, the pickle is updated. At a regular time interval the courses are looked through to see if any of them have the `has_been_updated` value been set to `True` in which case, a message is sent to all of the subscribers of that course with the latest lecture information, and this value is then set to `False`. After checking all courses, the pickle is updated.
 
+The notifications are sent out by restarting the bot every 15 minutes (cron job), the updater is called 4 minutes before each bot restart. The bot is currently hosted on my home server.
+
 
 ## TODO
 
@@ -26,7 +28,7 @@ The `update_courses.py` script should be run at whatever interval is desired. Ru
     - Solving this by saving which department gave a successful hits when checking which courses have RSS feeds. rss_courses.pkl is now a dict with each dept as a key, for a list of course numbers which fall under that dept. This should be helpful for later when building UI.
 - ~Create objects for courses (class) and users (dict)~
 - ~Create script to check when a new video has been added, then mark this course to have notification sent out~
-- Create bot to allow users to change settings, and which regularly checks the courses which are marked for notification and notifies subscribers
+- ~Create bot to allow users to change settings, and which regularly checks the courses which are marked for notification and notifies subscribers ~
     - partially done, features thus far need to be tested. need to add feature which sends new lecture notifications and properly updates the courses after notifications have been sent.
-- Make sure that users updating their subscriptions does not get overwritten by courses getting updated
+- ~Make sure that users updating their subscriptions does not get overwritten by courses getting updated~
     - Have `update_courses` read user_settings pickle after it has retrieved everything, making sure each person is still subscribed, maybe have to check that runtime isn't too long with that.
