@@ -168,7 +168,7 @@ for dept in courses.keys():
         if c.has_been_updated:
             for sub in c.subscribers:
                 try:
-                    bot.send_message(sub, f"The course {c.name} has been updated! Check out {c.link_to_video}")
+                    bot.send_message(sub, f"The course {c.name} has been updated! Check out {c.course_url}")
                     menu(None, chat_id=sub)
                 except Exception as e:
                     logger.log(20, 'Something went wrong when trying to send the user {sub} an update for their course {c.name}: {c.code}. Error: {e}')
