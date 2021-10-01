@@ -28,7 +28,7 @@ The notifications are sent out by restarting the bot every 15 minutes (cron job)
     - Solving this by saving which department gave a successful hits when checking which courses have RSS feeds. rss_courses.pkl is now a dict with each dept as a key, for a list of course numbers which fall under that dept. This should be helpful for later when building UI.
 - ~Create objects for courses (class) and users (dict)~
 - ~Create script to check when a new video has been added, then mark this course to have notification sent out~
-- ~Create bot to allow users to change settings, and which regularly checks the courses which are marked for notification and notifies subscribers ~
+- ~Create bot to allow users to change settings, and which regularly checks the courses which are marked for notification and notifies subscribers~
     - partially done, features thus far need to be tested. need to add feature which sends new lecture notifications and properly updates the courses after notifications have been sent.
 - ~Make sure that users updating their subscriptions does not get overwritten by courses getting updated~
     - Have `update_courses` read user_settings pickle after it has retrieved everything, making sure each person is still subscribed, maybe have to check that runtime isn't too long with that.
