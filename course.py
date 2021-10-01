@@ -15,3 +15,4 @@ class Course:
         self.prof = self.feed.entries[0]['author']
         self.has_been_updated = False
         self.subscribers=subs
+        self.course_url=f'https://video.ethz.ch/lectures/{dept}/{year}/{season}/{code}.html'
