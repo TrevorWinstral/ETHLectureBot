@@ -2,7 +2,7 @@ import feedparser
 import datetime
 
 class Course:
-    def __init__(self, dept, code, year, season):
+    def __init__(self, dept, code, year, season, subs=[]):
         self.dept = dept
         self.code = code
         self.year = year
@@ -14,4 +14,4 @@ class Course:
         self.name = self.feed.entries[0]['subtitle']
         self.prof = self.feed.entries[0]['author']
         self.has_been_updated = False
-        self.subscribers=[]
+        self.subscribers=subs

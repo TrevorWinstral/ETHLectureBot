@@ -53,9 +53,12 @@ if FIND_HITS:
             r=feedparser.parse(f'https://video.ethz.ch/lectures/{dept}/{year}/{season}/{idx}.rss.xml?quality=HIGH')
             entries= r.entries
             if entries != []:
-                hits[dept].append(Course(dept, idx, year, season))
-                print(idx, dept, entries[0]['subtitle'])
-                break
+                try:
+                    hits[dept].append(Course(dept, idx, year, season))
+                    print(idx, dept, entries[0]['subtitle'])
+                    break
+                except:
+                    pass
 
     with open('rss_courses.pkl', 'wb') as outfile:
         pickle.dump(hits, outfile)
