@@ -103,7 +103,7 @@ def show_courses_from_dept(message):
     dept = message.text[1:].replace('_', '-')
     markup = types.ReplyKeyboardMarkup()
     for course in courses[dept]:
-        markup.add(types.KeyboardButton(f"/{commandify(course.name+'_'+c.prof)}"))
+        markup.add(types.KeyboardButton(f"/{commandify(course.name+'_'+course.prof)}"))
     bot.send_message(chat_id, text="Return to the /menu\nChoose the course:", reply_markup=markup)
 
 
