@@ -35,7 +35,7 @@ def dump_users(users):
         pickle.dump(users, outf)
 
 
-command_to_course = {commandify(c.name):c for d in depts for c in courses[d]}
+command_to_course = {commandify(c.name+'_'+c.author):c for d in depts for c in courses[d]}
 
 
 # ============= BOT ===============
@@ -103,11 +103,11 @@ def show_courses_from_dept(message):
     dept = message.text[1:].replace('_', '-')
     markup = types.ReplyKeyboardMarkup()
     for course in courses[dept]:
-        markup.add(types.KeyboardButton(f"/{commandify(course.name)}"))
+        markup.add(types.KeyboardButton(f"/{commandify(course.name+'_'+c.author)}"))
     bot.send_message(chat_id, text="Return to the /menu\nChoose the course:", reply_markup=markup)
 
 
-@bot.message_handler(commands=[commandify(c.name) for d in depts for c in courses[d]])
+@bot.message_handler(commands=[commandify(c.name+'_'+c.author) for d in depts for c in courses[d]])
 def change_sub_status_to_course(message):
     global users
     chat_id = message.chat.id
@@ -143,13 +143,14 @@ def change_sub_status_to_course(message):
     dump_users(users)
     menu(message)
 
+
 @bot.message_handler(commands=['Unsubscribe', 'unsub', 'Unsub', 'unsubscribe'])
 def show_subscriptions(message):
     chat_id = message.chat.id
     global users
     markup = types.ReplyKeyboardMarkup()
     for c in users[chat_id]['subscriptions']:
-        markup.add(types.KeyboardButton(f"/{commandify(c.name)}"))
+        markup.add(types.KeyboardButton(f"/{commandify(c.name+'_'+c.author)}"))
     bot.send_message(chat_id, text="Return to the /menu\nHere are your current subscriptions, choose which you would like to unsubscribe from:", reply_markup=markup)
 
 
