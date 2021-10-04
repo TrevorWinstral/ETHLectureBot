@@ -70,8 +70,9 @@ The complete source code is available on Github: https://github.com/TrevorWinstr
 
 @bot.message_handler(commands=['Menu', 'menu'])
 def menu(message, chat_id=None):
-    chat_id = message.chat.id
-    if not chat_id: # w, chat_id=Nonee can leave message blank and just give the chat id to menu()
+    if not chat_id: # chat_id=None can leave message blank and just give the chat id to menu()
+        chat_id = message.chat.id
+    else:
         chat_id = message.chat.id
     try:
         users[message.chat.id]
