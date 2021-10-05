@@ -60,7 +60,7 @@ def help(message):
     chat_id = message.chat.id
 
     bot.send_message(chat_id, """Note that only courses which use the ETH video portal are tracked here. Use /menu to access the main menu. From there you can choose to /subscribe to a new course, or /unsubscribe from a course you are currently subscribed to.\
-Subscribing to the same course twice will unsubscribe you. 
+ Subscribing to the same course twice will unsubscribe you. 
         
 To report a problem send me an email: trevor.winstral@math.ethz.ch
 The complete source code is available on Github: https://github.com/TrevorWinstral/ETHLectureBot""",
@@ -70,10 +70,10 @@ The complete source code is available on Github: https://github.com/TrevorWinstr
 
 @bot.message_handler(commands=['Menu', 'menu'])
 def menu(message, chat_id=None):
-    if not chat_id: # chat_id=None can leave message blank and just give the chat id to menu()
-        chat_id = message.chat.id
-    else:
+    if chat_id: # chat_id=None can leave message blank and just give the chat id to menu()
         chat_id = chat_id
+    else:
+        chat_id = message.chat.id
     try:
         users[message.chat.id]
     except:
@@ -173,6 +173,7 @@ for dept in courses.keys():
                     bot.send_message(sub, f"The course {c.name} has been updated! Check out {c.course_url}")
                     menu(None, chat_id=sub)
                     c.has_been_updated = False # this should work as classes are mutable, may be I am wrong though
+                    # has_been_updated gets set to false if just 1 person successfully gets updated, no way to notify people who got an error before
                     logger.log(20, f'Nofified the user {sub} an update for their course {c.name}: {c.code}')
                 except Exception as e:
                     logger.log(20, f'Something went wrong when trying to send the user {sub} an update for their course {c.name}: {c.code}. Error: {e}')
