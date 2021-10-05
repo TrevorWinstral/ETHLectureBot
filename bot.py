@@ -73,7 +73,7 @@ def menu(message, chat_id=None):
     if not chat_id: # chat_id=None can leave message blank and just give the chat id to menu()
         chat_id = message.chat.id
     else:
-        chat_id = message.chat.id
+        chat_id = chat_id
     try:
         users[message.chat.id]
     except:
@@ -171,8 +171,8 @@ for dept in courses.keys():
             for sub in c.subscribers:
                 try:
                     bot.send_message(sub, f"The course {c.name} has been updated! Check out {c.course_url}")
-                    c.has_been_updated = False # this should work as classes are mutable, may be I am wrong though
                     menu(None, chat_id=sub)
+                    c.has_been_updated = False # this should work as classes are mutable, may be I am wrong though
                 except Exception as e:
                     logger.log(20, f'Something went wrong when trying to send the user {sub} an update for their course {c.name}: {c.code}. Error: {e}')
             
