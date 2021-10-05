@@ -74,10 +74,11 @@ def menu(message, chat_id=None):
         chat_id = chat_id
     else:
         chat_id = message.chat.id
+    
     try:
-        users[message.chat.id]
+        users[chat_id]
     except:
-        users[message.chat.id] = default_settings.copy()
+        users[chat_id] = default_settings.copy()
         logger.log(20, msg='Caught user not in dict but in menu')
 
     markup = types.ReplyKeyboardMarkup()
