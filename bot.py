@@ -173,6 +173,7 @@ for dept in courses.keys():
                     bot.send_message(sub, f"The course {c.name} has been updated! Check out {c.course_url}")
                     menu(None, chat_id=sub)
                     c.has_been_updated = False # this should work as classes are mutable, may be I am wrong though
+                    logger.log(20, f'Nofified the user {sub} an update for their course {c.name}: {c.code}')
                 except Exception as e:
                     logger.log(20, f'Something went wrong when trying to send the user {sub} an update for their course {c.name}: {c.code}. Error: {e}')
             
