@@ -176,8 +176,6 @@ for dept in courses.keys():
                     btnB = types.KeyboardButton('/Unsubscribe')
                     markup.row(btnA, btnB)
                     bot.send_message(sub, f"The course {c.name} has been updated! Check out {c.course_url}\nUse /help for help or to report a problem.", reply_markup=markup)
-                    
-                    menu(None, chat_id=sub)
                     c.has_been_updated = False # this should work as classes are mutable, may be I am wrong though
                     # has_been_updated gets set to false if just 1 person successfully gets updated, no way to notify people who got an error before
                     logger.log(20, f'Nofified the user {sub} an update for their course {c.name}: {c.code}')
