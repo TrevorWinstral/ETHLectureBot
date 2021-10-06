@@ -104,8 +104,9 @@ def show_depts(message):
                      reply_markup=markup)
 
 
-@bot.callback_query_handler(func=lambda call: call.data=='sub' or call.data=='unsub')
+@bot.callback_query_handler(func=lambda call: True)
 def wrap_for_sub(call):
+    print(call.data)
     show_courses_from_dept(call.message)
 
 @bot.message_handler(commands=[d.replace('-', '_') for d in depts])
