@@ -106,7 +106,7 @@ def show_depts(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def wrap_for_sub(call):
-    print(call.data)
+    logger.log(20, call.data)
     show_courses_from_dept(call.message)
 
 @bot.message_handler(commands=[d.replace('-', '_') for d in depts])
