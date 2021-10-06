@@ -151,14 +151,16 @@ def change_sub_status_to_course(message, course_title=None):
     if unsubbed:
         markup = types.InlineKeyboardMarkup()
         markup.add(types.InlineKeyboardButton('Undo this action', callback_data='#SubTo'+text))
+        markup.add(types.InlineKeyboardButton('Sub to another course', callback_data='sub'), types.InlineKeyboardButton('Unsub from another course', callback_data='unsub') )
         bot.send_message(chat_id, text=f'You have unsubscribed from the course {course.name} by {course.prof}, VVZ number: {course.code}', reply_markup=markup)
     else:
         markup = types.InlineKeyboardMarkup()
         markup.add(types.InlineKeyboardButton('Undo this action', callback_data='#UnsubFrom'+text))
+        markup.add(types.InlineKeyboardButton('Sub to another course', callback_data='sub'), types.InlineKeyboardButton('Unsub from another course', callback_data='unsub') )
         bot.send_message(chat_id, text=f'You subscribed to the course {course.name} by {course.prof}, VVZ number: {course.code}', reply_markup=markup)
 
     dump_users(users)
-    menu(message)
+
 
 
 @bot.message_handler(commands=['Unsubscribe', 'unsub', 'Unsub', 'unsubscribe'])
@@ -197,7 +199,7 @@ def callback_handler(call):
         logger.log(20, f'Received Callback from {call.message.chat.id}: SubTo {call.data[6:]}')
         change_sub_status_to_course(call.message, course_title=call.data[6:])
 
-        
+
 logger.log(20, 'Sending out notifications')
 for dept in courses.keys():
     for c in courses[dept]:
