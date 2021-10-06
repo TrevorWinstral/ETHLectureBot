@@ -1,3 +1,4 @@
+from json.encoder import py_encode_basestring_ascii
 import telebot
 from telebot import types
 from course import Course
@@ -116,10 +117,14 @@ def show_courses_from_dept(message, dept=None):
 
 
 @bot.message_handler(commands=[commandify(c.name+'_'+c.prof) for d in depts for c in courses[d]])
-def change_sub_status_to_course(message):
+def change_sub_status_to_course(message, course_title=None):
     global users
     chat_id = message.chat.id
-    course = command_to_course[message.text[1:]]
+    if course_title:
+        text = command_to_course[course_title] 
+    else:
+        text = message.text[1:]
+    course = command_to_course[text[1:]]
 
     unsubbed = False
     for idx in range(len(course.subscribers)):
@@ -174,20 +179,27 @@ def stats(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):
-    logger.log(20, call.data)
     if call.data == 'sub' or call.data=='unsub':
+        logger.log(20, f'Received Callback from {call.message.id}: sub/unsub')
         show_depts(call.message)
+    if call.data[:10] == '#UnsubFrom':
+        logger.log(20, f'Received Callback from {call.message.id}: UnsubFrom {call.data[10:]}')
+        change_sub_status_to_course(call.message, course_title=call.data[10:])
 
 logger.log(20, 'Sending out notifications')
 for dept in courses.keys():
     for c in courses[dept]:
+        c_text = commandify(c.name+'_'+c.prof)
         if c.has_been_updated:
             for sub in c.subscribers:
                 try:
-                    markup = types.ReplyKeyboardMarkup()
-                    btnA = types.KeyboardButton('/Subscribe')
-                    btnB = types.KeyboardButton('/Unsubscribe')
-                    markup.row(btnA, btnB)
+                    #markup = types.ReplyKeyboardMarkup()
+                    #btnA = types.KeyboardButton('/Subscribe')
+                    #btnB = types.KeyboardButton('/Unsubscribe')
+                    #markup.row(btnA, btnB)
+                    markup = types.InlineKeyboardMarkup()
+                    markup.add(types.InlineKeyboardButton('Unsub from this course', callback_data='#UnsubFrom'+c_text))
+                    markup.add(types.InlineKeyboardButton('Sub to another course', callback_data='sub'), types.InlineKeyboardButton('Unsub from another course', callback_data='unsub') )
                     bot.send_message(sub, f"The course {c.name} has been updated! Check out {c.course_url}\nUse /help for help or to report a problem.", reply_markup=markup)
                     c.has_been_updated = False # this should work as classes are mutable, may be I am wrong though
                     # has_been_updated gets set to false if just 1 person successfully gets updated, no way to notify people who got an error before
