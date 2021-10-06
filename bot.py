@@ -105,14 +105,18 @@ def show_depts(message):
 
 
 @bot.callback_query_handler(func=lambda call: True)
-def wrap_for_sub(call):
+def callback_handler(call):
     logger.log(20, call.data)
-    show_courses_from_dept(call.message)
+    if call.data == 'sub' or call.data=='unsub':
+        show_courses_from_dept(call.message)
 
 @bot.message_handler(commands=[d.replace('-', '_') for d in depts])
-def show_courses_from_dept(message):
+def show_courses_from_dept(message, dept=None):
     chat_id=message.chat.id
-    dept = message.text[1:].replace('_', '-')
+    if dept:
+        dept=dept
+    else:
+        dept = message.text[1:].replace('_', '-')
     markup = types.ReplyKeyboardMarkup()
     for course in courses[dept]:
         markup.add(types.KeyboardButton(f"/{commandify(course.name+'_'+course.prof)}"))
