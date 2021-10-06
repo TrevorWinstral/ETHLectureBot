@@ -86,10 +86,8 @@ def menu(message, chat_id=None):
         users[chat_id] = default_settings.copy()
         logger.log(20, msg='Caught user not in dict but in menu')
 
-    markup = types.ReplyKeyboardMarkup()
-    btnA = types.KeyboardButton('/Subscribe')
-    btnB = types.KeyboardButton('/Unsubscribe')
-    markup.row(btnA, btnB)
+    markup = types.InlineKeyboardMarkup()
+    markup.add(types.InlineKeyboardButton('Subscribe', callback_data='sub'), types.InlineKeyboardButton('Unsubscribe', callback_data='unsub'))
     bot.send_message(chat_id, text ='You can always use /menu to return here, /info for help or more information.\nYou can choose to subscribe or unsubscribe to a course:', reply_markup=markup)
 
 
@@ -103,12 +101,6 @@ def show_depts(message):
     bot.send_message(chat_id, text="Choose a Department:",
                      reply_markup=markup)
 
-
-@bot.callback_query_handler(func=lambda call: True)
-def callback_handler(call):
-    logger.log(20, call.data)
-    if call.data == 'sub' or call.data=='unsub':
-        show_depts(call.message)
 
 @bot.message_handler(commands=[d.replace('-', '_') for d in depts])
 def show_courses_from_dept(message, dept=None):
@@ -177,7 +169,14 @@ def stats(message):
     if chat_id in admins:
         dump_users(users)
         bot.send_message(chat_id, text=f'Dumping to pickle. Total users: {len(users)}')
-        menu()
+        markup = types.InlineKeyboardMarkup()
+        markup.add(types.InlineKeyboardButton('Subscribe', callback_data='sub'), types.InlineKeyboardButton('Unsubscribe', callback_data='unsub'))
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_handler(call):
+    logger.log(20, call.data)
+    if call.data == 'sub' or call.data=='unsub':
+        show_depts(call.message)
 
 logger.log(20, 'Sending out notifications')
 for dept in courses.keys():
