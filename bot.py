@@ -151,12 +151,12 @@ def change_sub_status_to_course(message, course_title=None):
     if unsubbed:
         markup = types.InlineKeyboardMarkup()
         markup.add(types.InlineKeyboardButton('Undo this action', callback_data='#SubTo'+text))
-        markup.add(types.InlineKeyboardButton('Sub to another course', callback_data='sub'), types.InlineKeyboardButton('Unsub from another course', callback_data='unsub') )
+        markup.add(types.InlineKeyboardButton('Sub to a course', callback_data='sub'), types.InlineKeyboardButton('Unsub from a course', callback_data='unsub') )
         bot.send_message(chat_id, text=f'You have unsubscribed from the course {course.name} by {course.prof}, VVZ number: {course.code}', reply_markup=markup)
     else:
         markup = types.InlineKeyboardMarkup()
         markup.add(types.InlineKeyboardButton('Undo this action', callback_data='#UnsubFrom'+text))
-        markup.add(types.InlineKeyboardButton('Sub to another course', callback_data='sub'), types.InlineKeyboardButton('Unsub from another course', callback_data='unsub') )
+        markup.add(types.InlineKeyboardButton('Sub to a course', callback_data='sub'), types.InlineKeyboardButton('Unsub from a course', callback_data='unsub') )
         bot.send_message(chat_id, text=f'You subscribed to the course {course.name} by {course.prof}, VVZ number: {course.code}', reply_markup=markup)
 
     dump_users(users)
@@ -213,7 +213,7 @@ for dept in courses.keys():
                     #markup.row(btnA, btnB)
                     markup = types.InlineKeyboardMarkup()
                     markup.add(types.InlineKeyboardButton('Unsub from this course', callback_data='#UnsubFrom'+c_text))
-                    markup.add(types.InlineKeyboardButton('Sub to another course', callback_data='sub'), types.InlineKeyboardButton('Unsub from another course', callback_data='unsub') )
+                    markup.add(types.InlineKeyboardButton('Sub to a course', callback_data='sub'), types.InlineKeyboardButton('Unsub from a course', callback_data='unsub') )
                     bot.send_message(sub, f"The course {c.name} has been updated! Check out {c.course_url}\nUse /help for help or to report a problem.", reply_markup=markup)
                     c.has_been_updated = False # this should work as classes are mutable, may be I am wrong though
                     # has_been_updated gets set to false if just 1 person successfully gets updated, no way to notify people who got an error before
