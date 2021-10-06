@@ -182,11 +182,11 @@ def callback_handler(call):
     logger.log(20, call.data[:10])
     if call.data == 'sub' or call.data=='unsub':
         logger.log(20, 'hi')
-        logger.log(20, f'Received Callback from {call.message.id}: sub/unsub')
+        logger.log(20, f'Received Callback from {call.message.chat.id}: sub/unsub')
         show_depts(call.message)
     elif call.data[:10] == '#UnsubFrom':
         logger.log(20, 'hello')
-        logger.log(20, f'Received Callback from {call.message.id}: UnsubFrom {call.data[10:]}')
+        logger.log(20, f'Received Callback from {call.message.chat.id}: UnsubFrom {call.data[10:]}')
         change_sub_status_to_course(call.message, course_title=call.data[10:])
 
 logger.log(20, 'Sending out notifications')
