@@ -58,14 +58,17 @@ def send_welcome(message):
 @bot.message_handler(commands=['help', 'Help', 'info', 'Info'])
 def help(message):
     chat_id = message.chat.id
-
+    markup = types.ReplyKeyboardMarkup()
+    btnA = types.KeyboardButton('/Subscribe')
+    btnB = types.KeyboardButton('/Unsubscribe')
+    markup.row(btnA, btnB)
     bot.send_message(chat_id, """Note that only courses which use the ETH video portal are tracked here. Use /menu to access the main menu. From there you can choose to /subscribe to a new course, or /unsubscribe from a course you are currently subscribed to.\
  Subscribing to the same course twice will unsubscribe you. 
         
 To report a problem send me an email: trevor.winstral@math.ethz.ch
 The complete source code is available on Github: https://github.com/TrevorWinstral/ETHLectureBot""",
-        disable_web_page_preview=True)
-    menu(message)
+        disable_web_page_preview=True, reply_markup=markup)
+
 
 
 @bot.message_handler(commands=['Menu', 'menu'])
