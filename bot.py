@@ -113,7 +113,7 @@ def show_courses_from_dept(message, dept=None):
     markup = types.ReplyKeyboardMarkup()
     for course in courses[dept]:
         markup.add(types.KeyboardButton(f"/{commandify(course.name+'_'+course.prof)}"))
-    bot.send_message(chat_id, text="Return to the /menu\nChoose the course:", reply_markup=markup)
+    bot.send_message(chat_id, text="Click here -> /menu to return to the main menu\nChoose the course you would like to subscribe to:", reply_markup=markup)
 
 
 @bot.message_handler(commands=[commandify(c.name+'_'+c.prof) for d in depts for c in courses[d]])
@@ -185,7 +185,7 @@ def stats(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):
-    logger.log(20, call.data[:10])
+    logger.log(20, f'Raw Callback: {call.data}')
     if call.data == 'sub':
         logger.log(20, f'Received Callback from {call.message.chat.id}: sub')
         show_depts(call.message)
