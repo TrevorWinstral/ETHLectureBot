@@ -220,7 +220,8 @@ for dept in courses.keys():
                     logger.log(20, f'Nofified the user {sub} an update for their course {c.name}: {c.code}')
                 except Exception as e:
                     logger.log(20, f'Something went wrong when trying to send the user {sub} an update for their course {c.name}: {c.code}. Error: {e}')
-            
+
+'''       
 c = courses['d-math'][0]
 c_text = commandify(c.name+'_'+c.prof)
 markup = types.InlineKeyboardMarkup()
@@ -228,6 +229,8 @@ markup.add(types.InlineKeyboardButton('Unsub from this course', callback_data='#
 logger.log(20, '#UnsubFrom'+c_text)
 markup.add(types.InlineKeyboardButton('Sub to another course', callback_data='sub'), types.InlineKeyboardButton('Unsub from another course', callback_data='unsub') )
 bot.send_message(admins[0], f"The course {c.name} has been updated! Check out {c.course_url}\nUse /help for help or to report a problem.", reply_markup=markup)
+'''
+
 
 with open('rss_courses.pkl', 'wb') as outf:
     pickle.dump(courses, outf)
