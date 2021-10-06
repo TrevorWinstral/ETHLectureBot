@@ -62,9 +62,8 @@ def help(message):
     #btnA = types.KeyboardButton('/Subscribe')
     #btnB = types.KeyboardButton('/Unsubscribe')
     #markup.row(btnA, btnB)
-    markup = types.InlineKeyboardMarkup(row_width=2)
-    markup.add(types.InlineKeyboardButton('Subscribe', callback_data='sub'))
-    markup.add(types.InlineKeyboardButton('Unsubscribe', callback_data='unsub'))
+    markup = types.InlineKeyboardMarkup()
+    markup.add(types.InlineKeyboardButton('Subscribe', callback_data='sub'), types.InlineKeyboardButton('Unsubscribe', callback_data='unsub'))
     bot.send_message(chat_id, """Note that only courses which use the ETH video portal are tracked here. Use /menu to access the main menu. From there you can choose to /subscribe to a new course, or /unsubscribe from a course you are currently subscribed to.\
  Subscribing to the same course twice will unsubscribe you. 
         
