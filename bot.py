@@ -108,7 +108,7 @@ def show_depts(message):
 def callback_handler(call):
     logger.log(20, call.data)
     if call.data == 'sub' or call.data=='unsub':
-        show_courses_from_dept(call.message)
+        show_depts(call.message)
 
 @bot.message_handler(commands=[d.replace('-', '_') for d in depts])
 def show_courses_from_dept(message, dept=None):
