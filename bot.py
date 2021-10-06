@@ -121,10 +121,10 @@ def change_sub_status_to_course(message, course_title=None):
     global users
     chat_id = message.chat.id
     if course_title:
-        text = command_to_course[course_title] 
+        text = course_title 
     else:
         text = message.text[1:]
-    course = command_to_course[text[1:]]
+    course = command_to_course[text]
 
     unsubbed = False
     for idx in range(len(course.subscribers)):
@@ -179,10 +179,11 @@ def stats(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):
+    logger.log(20, call.data[:10])
     if call.data == 'sub' or call.data=='unsub':
         logger.log(20, f'Received Callback from {call.message.id}: sub/unsub')
         show_depts(call.message)
-    if call.data[:10] == '#UnsubFrom':
+    elif call.data[:10] == '#UnsubFrom':
         logger.log(20, f'Received Callback from {call.message.id}: UnsubFrom {call.data[10:]}')
         change_sub_status_to_course(call.message, course_title=call.data[10:])
 
