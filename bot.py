@@ -104,6 +104,10 @@ def show_depts(message):
                      reply_markup=markup)
 
 
+@bot.callback_query_handler(func=lambda call: call.data=='sub' or call.data=='unsub')
+def wrap_for_sub(call):
+    show_courses_from_dept(call.message)
+
 @bot.message_handler(commands=[d.replace('-', '_') for d in depts])
 def show_courses_from_dept(message):
     chat_id=message.chat.id
