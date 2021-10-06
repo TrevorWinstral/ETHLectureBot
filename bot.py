@@ -181,6 +181,7 @@ def stats(message):
 def callback_handler(call):
     logger.log(20, call.data[:10])
     if call.data == 'sub' or call.data=='unsub':
+        logger.log(20, 'hi')
         logger.log(20, f'Received Callback from {call.message.id}: sub/unsub')
         show_depts(call.message)
     elif call.data[:10] == '#UnsubFrom':
