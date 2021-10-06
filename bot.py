@@ -149,9 +149,13 @@ def change_sub_status_to_course(message, course_title=None):
         pickle.dump(courses, outf)
 
     if unsubbed:
-        bot.send_message(chat_id, text=f'You have unsubscribed from the course {course.name} by {course.prof}, VVZ number: {course.code}')
+        markup = types.InlineKeyboardMarkup()
+        markup.add(types.InlineKeyboardButton('Undo this action', callback_data='#SubTo'+text))
+        bot.send_message(chat_id, text=f'You have unsubscribed from the course {course.name} by {course.prof}, VVZ number: {course.code}', reply_markup=markup)
     else:
-        bot.send_message(chat_id, text=f'You subscribed to the course {course.name} by {course.prof}, VVZ number: {course.code}')
+        markup = types.InlineKeyboardMarkup()
+        markup.add(types.InlineKeyboardButton('Undo this action', callback_data='#UnsubFrom'+text))
+        bot.send_message(chat_id, text=f'You subscribed to the course {course.name} by {course.prof}, VVZ number: {course.code}', reply_markup=markup)
 
     dump_users(users)
     menu(message)
@@ -180,15 +184,20 @@ def stats(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):
     logger.log(20, call.data[:10])
-    if call.data == 'sub' or call.data=='unsub':
-        logger.log(20, 'hi')
-        logger.log(20, f'Received Callback from {call.message.chat.id}: sub/unsub')
+    if call.data == 'sub':
+        logger.log(20, f'Received Callback from {call.message.chat.id}: sub')
         show_depts(call.message)
+    elif call.data == 'unsub':
+        logger.log(20, f'Received Callback from {call.message.chat.id}: unsub')
+        show_subscriptions(call.message)
     elif call.data[:10] == '#UnsubFrom':
-        logger.log(20, 'hello')
         logger.log(20, f'Received Callback from {call.message.chat.id}: UnsubFrom {call.data[10:]}')
         change_sub_status_to_course(call.message, course_title=call.data[10:])
+    elif call.data[:6] == '#SubTo':
+        logger.log(20, f'Received Callback from {call.message.chat.id}: SubTo {call.data[6:]}')
+        change_sub_status_to_course(call.message, course_title=call.data[6:])
 
+        
 logger.log(20, 'Sending out notifications')
 for dept in courses.keys():
     for c in courses[dept]:
