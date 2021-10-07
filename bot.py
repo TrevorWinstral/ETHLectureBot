@@ -216,6 +216,7 @@ for dept in courses.keys():
                     #btnB = types.KeyboardButton('/Unsubscribe')
                     #markup.row(btnA, btnB)
                     markup = types.InlineKeyboardMarkup()
+                    markup = types.InlineKeyboardMarkup()
                     markup.add(types.InlineKeyboardButton('Unsub from this course', callback_data='#UnsubFrom'+c_text))
                     markup.add(types.InlineKeyboardButton('Sub to a course', callback_data='sub'), types.InlineKeyboardButton('Unsub from a course', callback_data='unsub') )
                     bot.send_message(sub, f"The course {c.name} has been updated! Check out {c.course_url}\nUse /help for help or to report a problem.", reply_markup=markup)
