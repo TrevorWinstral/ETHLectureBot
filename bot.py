@@ -201,11 +201,11 @@ def callback_handler(call):
     elif call.data[:10] == '#UnsubFrom':
         c_title = code_to_command[call.data[10:]]
         logger.log(20, f'Received Callback from {call.message.chat.id}: UnsubFrom {c_title}')
-        change_sub_status_to_course(call.message, course_title=c_title)
+        change_sub_status_to_course(call.message, course_command=c_title)
     elif call.data[:6] == '#SubTo':
         c_title = code_to_command(call.data[6:])
         logger.log(20, f'Received Callback from {call.message.chat.id}: SubTo {c_title}')
-        change_sub_status_to_course(call.message, course_title=c_title)
+        change_sub_status_to_course(call.message, course_command=c_title)
 
 
 logger.log(20, 'Sending out notifications')
