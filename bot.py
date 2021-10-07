@@ -206,7 +206,7 @@ def callback_handler(call):
         change_sub_status_to_course(call.message, course_command=c_title)
     elif call.data[:6] == '#SubTo':
         logger.log(20, f'Attempting to #SubTo {call.data[6:]}')
-        c_title = code_to_command(call.data[6:])
+        c_title = code_to_command[call.data[6:]]
         logger.log(20, f'Received Callback from {call.message.chat.id}: SubTo {c_title}')
         change_sub_status_to_course(call.message, course_command=c_title)
 
