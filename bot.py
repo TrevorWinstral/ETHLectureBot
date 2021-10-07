@@ -210,6 +210,8 @@ for dept in courses.keys():
         if c.has_been_updated:
             c_text = commandify(c.name+'_'+c.prof)
             logger.log(20, f"Sending notifications for course c_text: {c_text}")
+            if c.subscribers == []:
+                c.has_been_updated = False
             for sub in c.subscribers:
                 try:
                     #markup = types.ReplyKeyboardMarkup()
