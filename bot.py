@@ -118,12 +118,12 @@ def show_courses_from_dept(message, dept=None):
 
 
 @bot.message_handler(commands=[commandify(c.name+'_'+c.prof) for d in depts for c in courses[d]])
-def change_sub_status_to_course(message, course_code=None):
+def change_sub_status_to_course(message, course_command=None):
     global users
     chat_id = message.chat.id
-    if course_code:
-        logger.log(20, f'Received sub/unsub from {chat_id} via course_code: {course_code}')
-        text = code_to_command[course_code]
+    if course_command:
+        logger.log(20, f'Received sub/unsub from {chat_id} via course_command: {course_command}')
+        text = course_command
     else:
         logger.log(20, f'Received sub/unsub from {chat_id} via command: {message.text}')
         text = message.text[1:]
