@@ -188,7 +188,7 @@ def stats(message):
         markup.add(types.InlineKeyboardButton('Subscribe', callback_data='sub'), types.InlineKeyboardButton('Unsubscribe', callback_data='unsub'))
 
 
-code_to_course = {c.code:commandify(c.name+'_'+c.prof) for dept in depts for c in depts[dept]}
+code_to_command = {c.code:commandify(c.name+'_'+c.prof) for dept in depts for c in depts[dept]}
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):
     logger.log(20, f'Raw Callback: {call.data}')
@@ -199,11 +199,11 @@ def callback_handler(call):
         logger.log(20, f'Received Callback from {call.message.chat.id}: unsub')
         show_subscriptions(call.message)
     elif call.data[:10] == '#UnsubFrom':
-        c_title = code_to_course[call.data[10:]]
+        c_title = code_to_command[call.data[10:]]
         logger.log(20, f'Received Callback from {call.message.chat.id}: UnsubFrom {c_title}')
         change_sub_status_to_course(call.message, course_title=c_title)
     elif call.data[:6] == '#SubTo':
-        c_title = code_to_course(call.data[6:])
+        c_title = code_to_command(call.data[6:])
         logger.log(20, f'Received Callback from {call.message.chat.id}: SubTo {c_title}')
         change_sub_status_to_course(call.message, course_title=c_title)
 
@@ -236,7 +236,7 @@ for dept in courses.keys():
 
 # TODO SEND NOTIFICATIONS WITH COURSE CODE, NOT COURSE NAME
 c = courses['d-math'][0]
-c_text = commandify(c.name+'_'+c.prof)
+c_text = c.code
 markup1 = types.InlineKeyboardMarkup()
 markup1.add(types.InlineKeyboardButton('Unsub from this course', callback_data='#UnsubFrom'+c_text))
 logger.log(20, '#UnsubFrom'+c_text)
