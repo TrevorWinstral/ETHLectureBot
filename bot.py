@@ -231,7 +231,7 @@ c_text = commandify(c.name+'_'+c.prof)
 markup1 = types.InlineKeyboardMarkup()
 markup1.add(types.InlineKeyboardButton('Unsub from this course', callback_data='#UnsubFrom'+c_text))
 logger.log(20, '#UnsubFrom'+c_text)
-markup1.add(types.InlineKeyboardButton('Sub to another course', callback_data='sub'), types.InlineKeyboardButton('Unsub from another course', callback_data='unsub') )
+markup1.add(types.InlineKeyboardButton('Sub to a course', callback_data='sub'), types.InlineKeyboardButton('Unsub from a course', callback_data='unsub') )
 
 markup = types.InlineKeyboardMarkup()
 markup.add(types.InlineKeyboardButton('Unsub from this course', callback_data='#UnsubFrom'+c_text))
