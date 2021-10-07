@@ -187,6 +187,8 @@ def stats(message):
         markup = types.InlineKeyboardMarkup()
         markup.add(types.InlineKeyboardButton('Subscribe', callback_data='sub'), types.InlineKeyboardButton('Unsubscribe', callback_data='unsub'))
 
+
+code_to_course = {c.code:commandify(c.name+'_'+c.prof) for dept in depts for c in depts[dept]}
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):
     logger.log(20, f'Raw Callback: {call.data}')
@@ -197,18 +199,20 @@ def callback_handler(call):
         logger.log(20, f'Received Callback from {call.message.chat.id}: unsub')
         show_subscriptions(call.message)
     elif call.data[:10] == '#UnsubFrom':
-        logger.log(20, f'Received Callback from {call.message.chat.id}: UnsubFrom {call.data[10:]}')
-        change_sub_status_to_course(call.message, course_title=call.data[10:])
+        c_title = code_to_course[call.data[10:]]
+        logger.log(20, f'Received Callback from {call.message.chat.id}: UnsubFrom {c_title}')
+        change_sub_status_to_course(call.message, course_title=c_title)
     elif call.data[:6] == '#SubTo':
-        logger.log(20, f'Received Callback from {call.message.chat.id}: SubTo {call.data[6:]}')
-        change_sub_status_to_course(call.message, course_title=call.data[6:])
+        c_title = code_to_course(call.data[6:])
+        logger.log(20, f'Received Callback from {call.message.chat.id}: SubTo {c_title}')
+        change_sub_status_to_course(call.message, course_title=c_title)
 
 
 logger.log(20, 'Sending out notifications')
 for dept in courses.keys():
     for c in courses[dept]:
         if c.has_been_updated:
-            c_text = commandify(c.name+'_'+c.prof)
+            c_text = c.code
             logger.log(20, f"Sending notifications for course c_text: {c_text}")
             if c.subscribers == []:
                 c.has_been_updated = False
@@ -229,7 +233,8 @@ for dept in courses.keys():
                 except Exception as e:
                     logger.log(20, f'Something went wrong when trying to send the user {sub} an update for their course {c.name}: {c.code}. Error: {e}')
 
-      
+
+# TODO SEND NOTIFICATIONS WITH COURSE CODE, NOT COURSE NAME
 c = courses['d-math'][0]
 c_text = commandify(c.name+'_'+c.prof)
 markup1 = types.InlineKeyboardMarkup()
