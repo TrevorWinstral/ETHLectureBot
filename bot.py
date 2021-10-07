@@ -121,8 +121,10 @@ def change_sub_status_to_course(message, course_title=None):
     global users
     chat_id = message.chat.id
     if course_title:
+        logger.log(20, f'Received sub/unsub from {chat_id} via course_title: {course_title}')
         text = course_title 
     else:
+        logger.log(20, f'Received sub/unsub from {chat_id} via command: {message.text}')
         text = message.text[1:]
     course = command_to_course[text]
 
@@ -130,10 +132,12 @@ def change_sub_status_to_course(message, course_title=None):
     for idx in range(len(course.subscribers)):
         # check if the user was a subscriber to the course, if so we need to remove them as a subscriber from the course
         if chat_id == course.subscribers[idx]:
+            logger.log(20, f'User {chat_id} is a sub to course {course.name}, unsubbing')
             del course.subscribers[idx]
             unsubbed = True
     # if we didn't unsub them, they weren't subbed, so now we should sub them to the course    
     if not unsubbed:
+        logger.log(20, f'User {chat_id} was not subbed, subbing them to course {course.name}')
         course.subscribers.append(chat_id)
         users[chat_id]['subscriptions'].append(course)
     # if we did unsub them, we need to remove the course from their subscriptions
@@ -203,8 +207,8 @@ def callback_handler(call):
 logger.log(20, 'Sending out notifications')
 for dept in courses.keys():
     for c in courses[dept]:
-        c_text = commandify(c.name+'_'+c.prof)
         if c.has_been_updated:
+            c_text = commandify(c.name+'_'+c.prof)
             for sub in c.subscribers:
                 try:
                     #markup = types.ReplyKeyboardMarkup()
