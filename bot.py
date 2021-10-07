@@ -38,8 +38,6 @@ def dump_users(users):
 
 command_to_course = {commandify(c.name+'_'+c.prof):c for d in depts for c in courses[d]}
 code_to_command = {c.code:commandify(c.name+'_'+c.prof) for d in depts for c in courses[d]}
-print(code_to_command)
-
 
 # ============= BOT ===============
 bot = telebot.TeleBot(token=TOKEN, threaded=False)
