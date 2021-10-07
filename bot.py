@@ -37,7 +37,8 @@ def dump_users(users):
 
 
 command_to_course = {commandify(c.name+'_'+c.prof):c for d in depts for c in courses[d]}
-code_to_command = {c.code:commandify(c.name+'_'+c.prof) for dept in depts for c in courses[dept]}
+code_to_command = {c.code:commandify(c.name+'_'+c.prof) for d in depts for c in courses[d]}
+print(code_to_command)
 
 
 # ============= BOT ===============
@@ -191,7 +192,7 @@ def stats(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):
-    logger.log(20, f'Raw Callback: {call.data}')
+    logger.log(20, f'Received Callback from {call.message.chat.id}. Raw Callback: {call.data}')
     if call.data == 'sub':
         logger.log(20, f'Received Callback from {call.message.chat.id}: sub')
         show_depts(call.message)
@@ -199,10 +200,12 @@ def callback_handler(call):
         logger.log(20, f'Received Callback from {call.message.chat.id}: unsub')
         show_subscriptions(call.message)
     elif call.data[:10] == '#UnsubFrom':
+        logger.log(20, f'Attempting to #UnsubFrom {call.data[10:]}')
         c_title = code_to_command[call.data[10:]]
         logger.log(20, f'Received Callback from {call.message.chat.id}: UnsubFrom {c_title}')
         change_sub_status_to_course(call.message, course_command=c_title)
     elif call.data[:6] == '#SubTo':
+        logger.log(20, f'Attempting to #SubTo {call.data[6:]}')
         c_title = code_to_command(call.data[6:])
         logger.log(20, f'Received Callback from {call.message.chat.id}: SubTo {c_title}')
         change_sub_status_to_course(call.message, course_command=c_title)
