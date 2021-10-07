@@ -188,7 +188,7 @@ def stats(message):
         markup.add(types.InlineKeyboardButton('Subscribe', callback_data='sub'), types.InlineKeyboardButton('Unsubscribe', callback_data='unsub'))
 
 
-code_to_command = {c.code:commandify(c.name+'_'+c.prof) for dept in depts for c in depts[dept]}
+code_to_command = {c.code:commandify(c.name+'_'+c.prof) for dept in depts for c in courses[dept]}
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):
     logger.log(20, f'Raw Callback: {call.data}')
