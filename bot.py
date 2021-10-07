@@ -37,6 +37,7 @@ def dump_users(users):
 
 
 command_to_course = {commandify(c.name+'_'+c.prof):c for d in depts for c in courses[d]}
+code_to_command = {c.code:commandify(c.name+'_'+c.prof) for dept in depts for c in courses[dept]}
 
 
 # ============= BOT ===============
@@ -117,12 +118,12 @@ def show_courses_from_dept(message, dept=None):
 
 
 @bot.message_handler(commands=[commandify(c.name+'_'+c.prof) for d in depts for c in courses[d]])
-def change_sub_status_to_course(message, course_title=None):
+def change_sub_status_to_course(message, course_code=None):
     global users
     chat_id = message.chat.id
-    if course_title:
-        logger.log(20, f'Received sub/unsub from {chat_id} via course_title: {course_title}')
-        text = course_title 
+    if course_code:
+        logger.log(20, f'Received sub/unsub from {chat_id} via course_code: {course_code}')
+        text = code_to_command[course_code]
     else:
         logger.log(20, f'Received sub/unsub from {chat_id} via command: {message.text}')
         text = message.text[1:]
@@ -154,12 +155,12 @@ def change_sub_status_to_course(message, course_title=None):
 
     if unsubbed:
         markup = types.InlineKeyboardMarkup()
-        markup.add(types.InlineKeyboardButton('Undo this action', callback_data='#SubTo'+text))
+        markup.add(types.InlineKeyboardButton('Undo this action', callback_data='#SubTo'+course.code))
         markup.add(types.InlineKeyboardButton('Sub to a course', callback_data='sub'), types.InlineKeyboardButton('Unsub from a course', callback_data='unsub') )
         bot.send_message(chat_id, text=f'You have unsubscribed from the course {course.name} by {course.prof}, VVZ number: {course.code}', reply_markup=markup)
     else:
         markup = types.InlineKeyboardMarkup()
-        markup.add(types.InlineKeyboardButton('Undo this action', callback_data='#UnsubFrom'+text))
+        markup.add(types.InlineKeyboardButton('Undo this action', callback_data='#UnsubFrom'+course.code))
         markup.add(types.InlineKeyboardButton('Sub to a course', callback_data='sub'), types.InlineKeyboardButton('Unsub from a course', callback_data='unsub') )
         bot.send_message(chat_id, text=f'You subscribed to the course {course.name} by {course.prof}, VVZ number: {course.code}', reply_markup=markup)
 
@@ -188,7 +189,6 @@ def stats(message):
         markup.add(types.InlineKeyboardButton('Subscribe', callback_data='sub'), types.InlineKeyboardButton('Unsubscribe', callback_data='unsub'))
 
 
-code_to_command = {c.code:commandify(c.name+'_'+c.prof) for dept in depts for c in courses[dept]}
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):
     logger.log(20, f'Raw Callback: {call.data}')
