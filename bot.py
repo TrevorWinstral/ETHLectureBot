@@ -225,7 +225,6 @@ for dept in courses.keys():
                     markup = types.InlineKeyboardMarkup()
                     markup.add(types.InlineKeyboardButton('Unsub from this course', callback_data='#UnsubFrom'+c_text))
                     markup.add(types.InlineKeyboardButton('Sub to a course', callback_data='sub'), types.InlineKeyboardButton('Unsub from a course', callback_data='unsub') )
-                    logger.log(20, str(markup))
                     bot.send_message(sub, f"The course {c.name} has been updated! Check out {c.course_url}\nUse /help for help or to report a problem.", reply_markup=markup)
                     c.has_been_updated = False # this should work as classes are mutable, may be I am wrong though
                     # has_been_updated gets set to false if just 1 person successfully gets updated, no way to notify people who got an error before
@@ -234,7 +233,7 @@ for dept in courses.keys():
                     logger.log(20, f'Something went wrong when trying to send the user {sub} an update for their course {c.name}: {c.code}. Error: {e}')
 
 
-# TODO SEND NOTIFICATIONS WITH COURSE CODE, NOT COURSE NAME
+'''
 c = courses['d-math'][0]
 c_text = c.code
 markup1 = types.InlineKeyboardMarkup()
@@ -246,7 +245,7 @@ markup = types.InlineKeyboardMarkup()
 markup.add(types.InlineKeyboardButton('Unsub from this course', callback_data='#UnsubFrom'+c_text))
 markup.add(types.InlineKeyboardButton('Sub to a course', callback_data='sub'), types.InlineKeyboardButton('Unsub from a course', callback_data='unsub') )
 bot.send_message(admins[0], f"The course {c.name} has been updated! Check out {c.course_url}\nUse /help for help or to report a problem.", reply_markup=markup1)
-
+'''
 
 
 with open('rss_courses.pkl', 'wb') as outf:
