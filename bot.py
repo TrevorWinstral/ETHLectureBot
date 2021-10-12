@@ -232,6 +232,7 @@ for dept in courses.keys():
                     logger.log(20, f'Nofified the user {sub} an update for their course {c.name}: {c.code}')
                 except Exception as e:
                     logger.log(20, f'Something went wrong when trying to send the user {sub} an update for their course {c.name}: {c.code}. Error: {e}')
+                    c.has_been_updated = True
 
 
 '''
